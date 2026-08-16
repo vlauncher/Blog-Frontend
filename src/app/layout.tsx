@@ -23,8 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 selection:bg-sky-500 selection:text-white">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 selection:bg-sky-500 selection:text-white"
+      >
         <AuthProvider>
           <NotificationProvider>
             <Toaster position="top-right" richColors />
