@@ -21,7 +21,10 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
     year: "numeric",
   });
 
-  const authorName = `${post.author.firstName} ${post.author.lastName}`;
+  const authorName = post.author
+    ? `${post.author.firstName || ""} ${post.author.lastName || ""}`.trim() || "Author"
+    : "Author";
+  const authorId = post.author?.id || "";
 
   if (featured) {
     return (
@@ -76,11 +79,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
 
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
             <Link
-              href={`/authors/${post.author.id}`}
+              href={authorId ? `/authors/${authorId}` : "#"}
               className="flex items-center space-x-3 group/author"
             >
               <Avatar
-                src={post.author.profile?.profilePicture}
+                src={post.author?.profile?.profilePicture}
                 name={authorName}
                 size="sm"
               />
@@ -162,11 +165,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
       {/* Footer */}
       <div className="px-5 pb-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
         <Link
-          href={`/authors/${post.author.id}`}
+          href={authorId ? `/authors/${authorId}` : "#"}
           className="flex items-center space-x-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-sky-600 transition-colors"
         >
           <Avatar
-            src={post.author.profile?.profilePicture}
+            src={post.author?.profile?.profilePicture}
             name={authorName}
             size="xs"
           />

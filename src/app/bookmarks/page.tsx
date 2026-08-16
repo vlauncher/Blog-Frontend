@@ -20,7 +20,11 @@ export default function BookmarksPage() {
     try {
       const res: any = await api.get("/api/bookmarks?limit=30");
       if (res.status === "success" && res.data) {
-        setBookmarks(res.data);
+        // Backend returns [{ id, postId, userId, post: { ... } }]
+        const postsList = res.data
+          .map((item: any) => item.post || item)
+          .filter(Boolean);
+        setBookmarks(postsList);
       }
     } catch {
       // Fail open
