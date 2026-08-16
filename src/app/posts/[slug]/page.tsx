@@ -13,13 +13,18 @@ import { BookmarkButton } from "@/components/ui/BookmarkButton";
 import { FollowButton } from "@/components/ui/FollowButton";
 import { CommentSection } from "@/components/comments/CommentSection";
 import { Avatar } from "@/components/ui/Avatar";
-import { Clock, Eye, Calendar, Share2, Sparkles, ArrowLeft } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { Clock, Eye, Calendar, Share2, Sparkles, ArrowLeft, Edit3, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function PostDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
+  const { user } = useAuth();
+  const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -54,6 +59,21 @@ export default function PostDetailPage({ params }: { params: Promise<{ slug: str
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
       toast.success("Link copied to clipboard!");
+    }
+  };
+
+  const handleDeletePost = async () => {
+    if (!post) return;
+    if (!confirm("Are you sure you want to delete this story? This action cannot be undone.")) return;
+
+    setIsDeleting(true);
+    try {
+      await api.delete(`/api/posts/${post.id}`);
+      toast.success("Story deleted successfully");
+      router.push("/");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete story");
+      setIsDeleting(false);
     }
   };
 
@@ -172,6 +192,28 @@ export default function PostDetailPage({ params }: { params: Promise<{ slug: str
               <Eye className="w-4 h-4" />
               <span>{post.viewCount} views</span>
             </div>
+
+            {/* Author/Admin Edit & Delete Actions */}
+            {user && (user.id === post.author.id || user.role === "ADMIN") && (
+              <>
+                <Link
+                  href={`/edit/${post.id}`}
+                  className="p-2 text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  title="Edit Story"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </Link>
+                <button
+                  onClick={handleDeletePost}
+                  disabled={isDeleting}
+                  className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
+                  title="Delete Story"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </>
+            )}
+
             <button
               onClick={handleShare}
               title="Share Link"
