@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
+import { Avatar } from "@/components/ui/Avatar";
 import { User as UserIcon, Camera, Lock, Save, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -110,19 +111,12 @@ export default function ProfilePage() {
       {/* Avatar Section */}
       <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center gap-6">
         <div className="relative group">
-          {user.profile?.profilePicture ? (
-            <Image
-              src={user.profile.profilePicture}
-              alt={user.firstName}
-              width={96}
-              height={96}
-              className="w-24 h-24 rounded-full object-cover border-2 border-slate-200 dark:border-slate-700 shadow-md"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-3xl flex items-center justify-center shadow-md">
-              {user.firstName[0]}
-            </div>
-          )}
+          <Avatar
+            src={user.profile?.profilePicture}
+            name={user.firstName}
+            size="xl"
+            className="border-2 border-slate-200 dark:border-slate-700 shadow-md"
+          />
 
           <label className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
             <Camera className="w-6 h-6" />

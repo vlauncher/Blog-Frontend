@@ -12,6 +12,7 @@ import { ReactionButton } from "@/components/ui/ReactionButton";
 import { BookmarkButton } from "@/components/ui/BookmarkButton";
 import { FollowButton } from "@/components/ui/FollowButton";
 import { CommentSection } from "@/components/comments/CommentSection";
+import { Avatar } from "@/components/ui/Avatar";
 import { Clock, Eye, Calendar, Share2, Sparkles, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
@@ -136,19 +137,11 @@ export default function PostDetailPage({ params }: { params: Promise<{ slug: str
         <div className="py-4 border-y border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
             <Link href={`/authors/${post.author.id}`} className="flex-shrink-0">
-              {post.author.profile?.profilePicture ? (
-                <Image
-                  src={post.author.profile.profilePicture}
-                  alt={authorName}
-                  width={44}
-                  height={44}
-                  className="w-11 h-11 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-                />
-              ) : (
-                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-sm flex items-center justify-center">
-                  {post.author.firstName[0]}
-                </div>
-              )}
+              <Avatar
+                src={post.author.profile?.profilePicture}
+                name={authorName}
+                size="md"
+              />
             </Link>
             <div>
               <div className="flex items-center gap-2">
@@ -236,19 +229,11 @@ export default function PostDetailPage({ params }: { params: Promise<{ slug: str
             {/* Author Spotlight Box */}
             <div className="my-8 p-6 rounded-3xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-start space-x-4">
               <Link href={`/authors/${post.author.id}`} className="flex-shrink-0">
-                {post.author.profile?.profilePicture ? (
-                  <Image
-                    src={post.author.profile.profilePicture}
-                    alt={authorName}
-                    width={56}
-                    height={56}
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-lg flex items-center justify-center">
-                    {post.author.firstName[0]}
-                  </div>
-                )}
+                <Avatar
+                  src={post.author.profile?.profilePicture}
+                  name={authorName}
+                  size="lg"
+                />
               </Link>
               <div className="space-y-1.5 flex-1">
                 <div className="flex items-center justify-between">

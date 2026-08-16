@@ -20,7 +20,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import Image from "next/image";
+import { Avatar } from "@/components/ui/Avatar";
 
 export const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -168,9 +168,11 @@ export const Navbar: React.FC = () => {
                                 !n.isRead ? "bg-sky-50/50 dark:bg-sky-950/20" : ""
                               }`}
                             >
-                              <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center font-bold text-xs text-slate-600 dark:text-slate-300">
-                                {n.actor?.firstName?.[0] || "A"}
-                              </div>
+                              <Avatar
+                                src={n.actor?.profile?.profilePicture}
+                                name={n.actor?.firstName || "A"}
+                                size="sm"
+                              />
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs text-slate-700 dark:text-slate-300 line-clamp-2">
                                   {n.message}
@@ -206,21 +208,13 @@ export const Navbar: React.FC = () => {
                 <div className="relative" ref={profileRef}>
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="flex items-center gap-2 p-1 rounded-full hover:ring-2 hover:ring-sky-500/50 transition-all"
+                    className="flex items-center gap-2 p-0.5 rounded-full hover:ring-2 hover:ring-sky-500/50 transition-all"
                   >
-                    {user?.profile?.profilePicture ? (
-                      <Image
-                        src={user.profile.profilePicture}
-                        alt={user.firstName}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-sm">
-                        {user?.firstName?.[0] || "U"}
-                      </div>
-                    )}
+                    <Avatar
+                      src={user?.profile?.profilePicture}
+                      name={user ? `${user.firstName} ${user.lastName}` : "User"}
+                      size="sm"
+                    />
                   </button>
 
                   {isProfileOpen && (

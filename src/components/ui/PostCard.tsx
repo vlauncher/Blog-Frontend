@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Post } from "@/types";
 import { Clock, Eye, MessageSquare } from "lucide-react";
 import { BookmarkButton } from "./BookmarkButton";
+import { Avatar } from "./Avatar";
 
 interface PostCardProps {
   post: Post;
@@ -78,19 +79,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
               href={`/authors/${post.author.id}`}
               className="flex items-center space-x-3 group/author"
             >
-              {post.author.profile?.profilePicture ? (
-                <Image
-                  src={post.author.profile.profilePicture}
-                  alt={authorName}
-                  width={36}
-                  height={36}
-                  className="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-                />
-              ) : (
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-xs flex items-center justify-center">
-                  {post.author.firstName[0]}
-                </div>
-              )}
+              <Avatar
+                src={post.author.profile?.profilePicture}
+                name={authorName}
+                size="sm"
+              />
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-white group-hover/author:text-sky-600 transition-colors">
                   {authorName}
@@ -172,19 +165,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
           href={`/authors/${post.author.id}`}
           className="flex items-center space-x-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-sky-600 transition-colors"
         >
-          {post.author.profile?.profilePicture ? (
-            <Image
-              src={post.author.profile.profilePicture}
-              alt={authorName}
-              width={24}
-              height={24}
-              className="w-6 h-6 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-[10px] flex items-center justify-center">
-              {post.author.firstName[0]}
-            </div>
-          )}
+          <Avatar
+            src={post.author.profile?.profilePicture}
+            name={authorName}
+            size="xs"
+          />
           <span className="truncate max-w-[110px]">{authorName}</span>
         </Link>
 

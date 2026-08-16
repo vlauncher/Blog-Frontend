@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { Comment } from "@/types";
 import { useAuth } from "@/context/AuthContext";
+import { Avatar } from "@/components/ui/Avatar";
 import { MessageSquare, Edit2, Trash2, CornerDownRight, Check, X } from "lucide-react";
 
 interface CommentItemProps {
@@ -62,19 +62,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
-            {comment.author.profile?.profilePicture ? (
-              <Image
-                src={comment.author.profile.profilePicture}
-                alt={authorName}
-                width={28}
-                height={28}
-                className="w-7 h-7 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-xs flex items-center justify-center">
-                {comment.author.firstName[0]}
-              </div>
-            )}
+            <Avatar
+              src={comment.author.profile?.profilePicture}
+              name={authorName}
+              size="xs"
+            />
             <div>
               <span className="text-xs font-semibold text-slate-900 dark:text-white">
                 {authorName}

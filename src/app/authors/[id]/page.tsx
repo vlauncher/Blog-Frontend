@@ -7,6 +7,7 @@ import { api } from "@/lib/api";
 import { Post, User } from "@/types";
 import { PostCard } from "@/components/ui/PostCard";
 import { FollowButton } from "@/components/ui/FollowButton";
+import { Avatar } from "@/components/ui/Avatar";
 import { Users, BookOpen, ArrowLeft } from "lucide-react";
 
 export default function AuthorProfilePage({ params }: { params: Promise<{ id: string }> }) {
@@ -59,19 +60,12 @@ export default function AuthorProfilePage({ params }: { params: Promise<{ id: st
 
       {/* Author Header Card */}
       <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6">
-        {author?.profile?.profilePicture ? (
-          <Image
-            src={author.profile.profilePicture}
-            alt={authorName}
-            width={96}
-            height={96}
-            className="w-24 h-24 rounded-full object-cover border-2 border-slate-200 dark:border-slate-700 shadow-md"
-          />
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold text-3xl flex items-center justify-center shadow-md">
-            {author?.firstName?.[0] || "A"}
-          </div>
-        )}
+        <Avatar
+          src={author?.profile?.profilePicture}
+          name={authorName}
+          size="xl"
+          className="border-2 border-slate-200 dark:border-slate-700 shadow-md"
+        />
 
         <div className="flex-1 text-center sm:text-left space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
