@@ -46,8 +46,8 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   const [isLoadingPost, setIsLoadingPost] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || (user?.role !== "AUTHOR" && user?.role !== "ADMIN"))) {
-      router.push("/");
+    if (!authLoading && !isAuthenticated) {
+      router.push("/auth/login");
     }
 
     const fetchData = async () => {

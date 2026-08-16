@@ -111,16 +111,14 @@ export const Navbar: React.FC = () => {
 
             {isAuthenticated ? (
               <>
-                {/* Write Button (if author/admin) */}
-                {isAuthor && (
-                  <Link
-                    href="/write"
-                    className="hidden sm:flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-sky-500 dark:hover:bg-sky-400 text-white text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
-                  >
-                    <PenSquare className="w-4 h-4" />
-                    <span>Write</span>
-                  </Link>
-                )}
+                {/* Write Button (all authenticated users) */}
+                <Link
+                  href="/write"
+                  className="hidden sm:flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-sky-500 dark:hover:bg-sky-400 text-white text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:shadow transition-all"
+                >
+                  <PenSquare className="w-4 h-4" />
+                  <span>Write</span>
+                </Link>
 
                 {/* Notifications Dropdown */}
                 <div className="relative" ref={notifRef}>

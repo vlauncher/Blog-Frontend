@@ -49,9 +49,9 @@ export default function WritePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || (user?.role !== "AUTHOR" && user?.role !== "ADMIN"))) {
-      toast.error("Author privileges required to write stories");
-      router.push("/");
+    if (!authLoading && !isAuthenticated) {
+      toast.error("Please sign in to write stories");
+      router.push("/auth/login");
     }
 
     const fetchCategories = async () => {
@@ -123,8 +123,12 @@ export default function WritePage() {
       const post = res.data;
 
       if (action === "publish") {
-        await api.post(`/api/posts/${post.id}/publish`);
-        toast.success("Story published successfully!");
+        const publishRes: any = await api.post(`/api/posts/${post.id}/publish`);
+        if (publishRes.data?.status === "PENDING_REVIEW") {
+          toast.success("Story submitted! An administrator has been notified and will review your post shortly.");
+        } else {
+          toast.success("Story published successfully!");
+        }
       } else if (action === "schedule") {
         await api.post(`/api/posts/${post.id}/schedule`, {
           scheduledPublishAt: new Date(scheduledDate).toISOString(),
@@ -180,7 +184,7 @@ export default function WritePage() {
             className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-md shadow-sky-500/20 disabled:opacity-50 transition-all"
           >
             {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-            <span>Publish Now</span>
+            <span>{user?.role === "READER" ? "Submit for Review" : "Publish Now"}</span>
           </button>
         </div>
       </div>
